@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<title>音声のホルマントの３Ｄ表示</title>
+<meta property="og:title" content="音声のホルマントの３Ｄ表示" />
+<meta property="og:locale" content="ja_JP" />
+<meta name="description" content="音声のホルマントの３Ｄ表示" />
+<meta property="og:description" content="音声のホルマントの３Ｄ表示" />
+<link rel="canonical" href="https://shun60s.github.io/Formant/" />
+<meta property="og:url" content="https://shun60s.github.io/Formant/" />
+<meta property="og:site_name" content="Formant" />
+
+
+    <link href="style.css" rel="stylesheet">
+    <link rel="alternate" hreflang="ja" href="https://shun60s.github.io/Formant/" />
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+
+      <h1 id="hmm">Formant</h1>
+
+<h2 id="概要">概要</h2>
+
+<p>LPC(線形予測分析)法によるホルマント周波数とピッチ周波数を推定する簡略的なプログラム。<br />
+LPCスペクトルと推定されたホルマントの位置を3D表示する。</p>
+
+<p><a href="https://github.com/shun60s/Formant">github repository</a></p>
+
+<h2 id="使い方">使い方</h2>
+
+<p>wavファイル(16khz,mono,16bit)名前を引数にして実行する。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python main1.py wav/aiueo1.wav
+</code></pre></div></div>
+
+<p>aiueo1.wav「あいうえお」の推定結果。<br />
+下図のようにスペクトルと、ホルマントの候補位置が赤丸で表示される。</p>
+
+<img src="3D-plot-0.png" alt="スペクトルとホルマントの推測位置の例" /><br />
+<img src="3D-plot-1.png" alt="スペクトルとホルマントの推測位置の例" /><br />
+
+<p>また、下図のように、ホルマント周波数の5番目までの[候補]とピッチ周波数の推定値が表示される。 <br />
+注意：これらの値は正しいとは限らない。外れていることもある。</p>
+<img src="print-out-sample.png" alt="ホルマントとピッチ周波数の推測" /><br />
+<br />
+
+<h2 id="参照したもの">参照したもの</h2>
+
+<ul>
+  <li><a href="http://aidiary.hatenablog.com/entry/20120415/1334458954">線形予測分析</a></li>
+  <li><a href="http://www.gavo.t.u-tokyo.ac.jp/~mine/B3enshu2001/samples.html">日本語音声サンプル</a></li>
+
+</ul>
+
+<h2 id="免責事項">免責事項　</h2>
+
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS 
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+<h4 id="上記はmitライセンスからの抜粋です">上記はMITライセンスからの抜粋です。</h4>
+
+
+      
+    </div>
+  </body>
+</html>

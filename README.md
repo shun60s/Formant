@@ -27,8 +27,8 @@ aiueo1.wav「あいうえお」の推定で結果である。
 
 ## 参照したもの  
 
-- [線形予測分析](<http://aidiary.hatenablog.com/entry/20120415/1334458954>)  
-- [日本語音声サンプル](<http://www.gavo.t.u-tokyo.ac.jp/~mine/B3enshu2001/samples.html>)  
+- [線形予測分析](http://aidiary.hatenablog.com/entry/20120415/1334458954)  
+- [日本語音声サンプル](http://www.gavo.t.u-tokyo.ac.jp/~mine/B3enshu2001/samples.html)  
 
 
 ## 免責事項  

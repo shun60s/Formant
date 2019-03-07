@@ -29,8 +29,8 @@ if __name__ == "__main__":
 	#
 	INPUT_WAVE_FILE0=args.wav_file  # ="wav/aiueo1.wav"  # 「あいうえお」声の例
 	
-	# calculate lpc log-spectrum and  formant, pitch index
-	spec_out, fout_index,pout_index= fp0.get_fp(INPUT_WAVE_FILE0)
+	# calculate lpc log-spectrum and  formant, pitch
+	spec_out, fout_index,pout= fp0.get_fp(INPUT_WAVE_FILE0)
 	
 	# 3D plot
 	x = np.arange(0,  spec_out.shape[1] , 1) * fp0.df0

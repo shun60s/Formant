@@ -28,7 +28,7 @@ class Class_get_fp(object):
 		#
 		#   出力：LPC対数スペクト周波数の行列
 		#         ホルマント周波数の候補のインデックス
-		#         ピッチ周波数の候補のインデックス
+		#         ピッチ周波数の候補
 		#         
 		
     	# read wave file
@@ -39,7 +39,7 @@ class Class_get_fp(object):
 		sampling_rate = waveFile.getframerate()
 		nframes = waveFile.getnframes()
 		self.df0 = (sampling_rate /2.) / self.FreqPoints
-		self.dt0 = self.NSHIFT * ( 1.0 / sampling_rate)
+		self.dt0 = 1.0 / sampling_rate
 		
 		# check input wave file condition
 		assert nchannles == 1, ' channel is not MONO '
@@ -98,7 +98,7 @@ class Class_get_fp(object):
 			r_err=residual_error(a, windowed)
 			## autocorrelation of lpc residual error (= input source)
 			a_r_err=autocorr(r_err)
-			a_f_result, a_i_result = self.pitch_detect(a_r_err, self.df0)
+			a_f_result, a_i_result = self.pitch_detect(a_r_err, self.dt0)
 			if len(a_f_result) > 0: # if candidate exist,
 				pout[loop]=a_f_result[0]
 				pout_index[loop]=a_i_result[0]
@@ -113,7 +113,7 @@ class Class_get_fp(object):
 			# next
 			pos += self.NSHIFT
 		
-		return spec_out, fout_index, pout_index
+		return spec_out, fout_index, pout
 
 
 	def formant_detect(self,input0, df0, f_min=250):
@@ -143,49 +143,62 @@ class Class_get_fp(object):
 
 		return f_result, i_result
 
-
-	def pitch_detect(self, input0, df0, ratio0=0.2, f_min=100, f_max=500):
+	def pitch_detect(self, input0, dt0, ratio0=0.2, f_min=100, f_max=500):
 		# 　自己相関の
 		# 　山と谷の両方のピークを求める
 		#
 		#   入力：lpc予測残差の自己相関
-		#         周波数単位
+		#         時間単位
 		#         （オプション）自己エネルギー0次成分に対する比率（これ以上を対象とする）
 		#         （オプション）最低の周波数
 		#         （オプション）最大の周波数
 		#
-		#   出力：ピークのインデックス
-		#         ピークの周波数の値
+		#   出力：最大ピークのインデックス
+		#         最大ピークの周波数の値
 		#
 		#
 		is_find_first= False
 		f_result=[]
 		i_result=[]
+		v_result=[]
 		for i in range (1,len(input0)-1):
 			if np.abs(input0[i]) < np.abs(input0[0] * ratio0):
 				continue
-			if f_max is not None  and df0 * i >= f_max :
+			fp= 1.0 / (dt0 * i)
+			if f_max is not None  and fp >= f_max :
 				continue
-			if f_min is not None and  df0 * i <= f_min :
+			if f_min is not None and  fp <= f_min :
 				continue
 			if input0[i] > input0[i-1] and input0[i] > input0[i+1] :
 				if not is_find_first :
-					f_result.append( df0 * i)
+					f_result.append( fp)
 					i_result.append(i)
+					v_result.append( input0[i])
 					is_find_first =True
 				else:
-					f_result.append( df0 * i)
+					f_result.append( fp)
 					i_result.append(i)
+					v_result.append( input0[i])
 			elif input0[i] < input0[i-1] and input0[i] < input0[i+1] :
 				if not is_find_first :
-					f_result.append( df0 * i)
+					f_result.append( fp)
 					i_result.append(i)
+					v_result.append( input0[i] )
 					is_find_first =True
 				else:
-					f_result.append( df0 * i)
+					f_result.append( fp)
 					i_result.append(i)
-
-		return f_result, i_result
+					v_result.append( input0[i])
+		
+		if is_find_first:  # 最大のピークを探す
+			a=np.argmax( np.array(v_result))
+			f_result2= [ f_result[np.argmax( np.array(v_result))] ]
+			i_result2= [ i_result[np.argmax( np.array(v_result))] ]
+		else: #　候補なし
+			f_result2=[]
+			i_result2=[]
+			
+		return f_result2, i_result2
 
 
 #This file uses TAB
